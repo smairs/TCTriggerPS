@@ -799,7 +799,7 @@ def TCCheck4Variables(source_dict,YSOtable,region,trigger_thresh = 5,brightness_
                 else:
                     trigger_messages_stochastic_newind.append(0)
 
-                plt.scatter((np.array(source_dict[eachsource]['dates'])[np.argsort(np.array(source_dict[eachsource]['dates']))]-np.array(source_dict[eachsource]['dates'])[np.argsort(np.array(source_dict[eachsource]['dates']))][0])/365.24,np.array(source_dict[eachsource]['peakfluxes'])[np.argsort(np.array(source_dict[eachsource]['dates']))],label=str(source_dict[eachsource]['index'])+':'+eachsource)
+                plt.scatter((np.array(source_dict[eachsource]['dates'])[np.argsort(np.array(source_dict[eachsource]['dates']))]-np.array(source_dict[eachsource]['dates'])[np.argsort(np.array(source_dict[eachsource]['dates']))][0])/365.24,np.array(source_dict[eachsource]['peakfluxes'])[np.argsort(np.array(source_dict[eachsource]['dates']))],label=str(source_dict[eachsource]['index'])+':'+eachsource.replace('_',''))
                 plt.axhline(y=np.average(source_dict[eachsource]['peakfluxes'])+source_dict[eachsource]['sd'],color='k',linestyle='dashed')
                 plt.axhline(y=np.average(source_dict[eachsource]['peakfluxes'])+source_dict[eachsource]['sd_fiducial'],color='b',linestyle='dotted')
 
@@ -835,7 +835,7 @@ def TCCheck4Variables(source_dict,YSOtable,region,trigger_thresh = 5,brightness_
 
                 trigger_messages_fiducial.append(trigger_message)
 
-                plt.scatter(np.array(range(len(np.array(source_dict[eachsource]['dates_reg'])[np.argsort(np.array(source_dict[eachsource]['dates']))])))+1,np.array(source_dict[eachsource]['peakfluxes'])[np.argsort(np.array(source_dict[eachsource]['dates']))],label=eachsource)
+                plt.scatter(np.array(range(len(np.array(source_dict[eachsource]['dates_reg'])[np.argsort(np.array(source_dict[eachsource]['dates']))])))+1,np.array(source_dict[eachsource]['peakfluxes'])[np.argsort(np.array(source_dict[eachsource]['dates']))],label=eachsource.replace('_',''))
                 plt.axhline(y=np.average(source_dict[eachsource]['peakfluxes'])+source_dict[eachsource]['sd'],color='k',linestyle='dashed')
                 plt.axhline(y=np.average(source_dict[eachsource]['peakfluxes']),color='k',linestyle='solid')
                 plt.axhline(y=np.average(source_dict[eachsource]['peakfluxes'])-source_dict[eachsource]['sd'],color='k',linestyle='dashed')
