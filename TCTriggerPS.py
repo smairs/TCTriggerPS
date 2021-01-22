@@ -168,7 +168,7 @@ def TCTrigger(input_data,protocat,diskcat,region, aperture_diam = 0.00083333, tr
 	    ###############################################
 
 
-            if not os.path.exists(output_dir+'/'+region+'/'+region+'_YSOcompare.txt'):
+            if not os.path.exists(output_dir+'/'+region+'/'+region+'_YSOcompare_'+wave+'.txt'):
 
                 YSOtable     = TCYSOcompare(peakcat_name,protocat,diskcat,region,wave=wave)
 
@@ -176,11 +176,11 @@ def TCTrigger(input_data,protocat,diskcat,region, aperture_diam = 0.00083333, tr
                 print(YSOtable)
                 print('\n\n')
 
-                os.system('mv '+region+'_YSOcompare.txt '+output_dir+'/'+region)
+                os.system('mv '+region+'_YSOcompare_'+wave+'.txt '+output_dir+'/'+region)
        
             else:
 
-                YSOtable = Table.read(output_dir+'/'+region+'/'+region+'_YSOcompare.txt',format='ascii') 
+                YSOtable = Table.read(output_dir+'/'+region+'/'+region+'_YSOcompare_'+wave+'.txt',format='ascii') 
 
                 print('\n\n')
                 print(YSOtable)
@@ -196,7 +196,7 @@ def TCTrigger(input_data,protocat,diskcat,region, aperture_diam = 0.00083333, tr
 	    ### Find the Peak Flux of Each Source ###
 	    #########################################
 
-            source_dict = TCTrackSources(input_data,peakcat_name,region,output_dir+'/'+region,aperture_diam = aperture_diam)
+            source_dict = TCTrackSources(input_data,peakcat_name,region,output_dir+'/'+region,aperture_diam = aperture_diam,wave=wave)
 
             # Source_dict is a dictionary with each key representing one source
             # Source ID key contains date and peak flux information
@@ -256,7 +256,7 @@ def TCTrigger(input_data,protocat,diskcat,region, aperture_diam = 0.00083333, tr
             
 	    # YSOcompare File
             needtooverwrite = 0
-            f    = open(output_dir+'/'+region+'/'+region+'_YSOcompare.txt')
+            f    = open(output_dir+'/'+region+'/'+region+'_YSOcompare_'+wave+'.txt')
             newf = open('newfile.txt','w')
             lines = f.readlines() # read old content
             if lines[0][0]=='#':
@@ -271,7 +271,7 @@ def TCTrigger(input_data,protocat,diskcat,region, aperture_diam = 0.00083333, tr
             f.close()
      
             if needtooverwrite==1:
-                os.system('mv -f newfile.txt '+output_dir+'/'+region+'/'+region+'_YSOcompare.txt')
+                os.system('mv -f newfile.txt '+output_dir+'/'+region+'/'+region+'_YSOcompare_'+wave+'.txt')
 
             # Metadata file
             needtooverwrite = 0

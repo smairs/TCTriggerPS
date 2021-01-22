@@ -133,7 +133,7 @@ def TCMetadata(input_data,region,output_dir,wave='850'):
 
     print('\n\n\n',input_data,'\n\n\n')
 
-    existing_metadata_file = glob.glob(output_dir+"/*metadata.txt")
+    existing_metadata_file = glob.glob(output_dir+"/*"+wave+"*metadata.txt")
 
     if len(existing_metadata_file)>0:
         table_already_exists = True
@@ -431,7 +431,7 @@ def TCYSOcompare(peakcat,protocatalogue,diskcatalogue,region,wave='850'):
     # Get today's date into a string
     now   = datetime.datetime.now()
     today = '{:02d}'.format(now.year)+'{:02d}'.format(now.month)+'{:02d}'.format(now.day)
-    apascii.write(t,region+'_YSOcompare.txt')
+    apascii.write(t,region+'_YSOcompare_'+wave+'.txt')
 
     return(t)
 
@@ -486,17 +486,15 @@ def TCTrackSources(input_data,peakcat,region,output_dir,aperture_diam = 0.000833
     #from starlink.ndfpack import Ndf        
     import os
     import pickle
+    import glob
 
     # Check to see if a previous sourceinfo dict has been created by TCCheck4Variables:
     previous_results=False
-    previous_results_dir = os.listdir(output_dir)
+    previous_results_list = sorted(glob.glob(output_dir+'/*'+wave+'_sourceinfo.txt'))
     previous_results_thisregion = []
-    for eachfile in previous_results_dir:
-        fullname = output_dir+'/'+eachfile
-        if len(fullname.split('/')[-1].split(region))>1:
-            if fullname.split('/')[-1].split(region)[1].split('_')[-1]=='sourceinfo.txt':
-                previous_results=True
-                previous_results_thisregion.append(fullname)
+    if len(previous_results_list)==1:
+        previous_results=True
+        previous_results_thisregion.append(previous_results_list[0])
 
     datesinfile = []
     if previous_results:
@@ -807,7 +805,7 @@ def TCCheck4Variables(source_dict,YSOtable,region,trigger_thresh = 5,brightness_
                 plt.axhline(y=np.average(source_dict[eachsource]['peakfluxes'])-source_dict[eachsource]['sd'],color='k',linestyle='dashed')
                 plt.axhline(y=np.average(source_dict[eachsource]['peakfluxes'])-source_dict[eachsource]['sd_fiducial'],color='b',linestyle='dotted')
                 plt.legend(loc='lower left')
-                plt.savefig('index_'+str(source_dict[eachsource]['index'])+'_'+eachsource+'_lightcurve.pdf',format='pdf')
+                plt.savefig('index_'+str(source_dict[eachsource]['index'])+'_'+eachsource+'_'+wave+'_lightcurve.pdf',format='pdf')
                 plt.clf()
 ##########
 ##########
@@ -840,7 +838,7 @@ def TCCheck4Variables(source_dict,YSOtable,region,trigger_thresh = 5,brightness_
                 plt.axhline(y=np.average(source_dict[eachsource]['peakfluxes']),color='k',linestyle='solid')
                 plt.axhline(y=np.average(source_dict[eachsource]['peakfluxes'])-source_dict[eachsource]['sd'],color='k',linestyle='dashed')
                 plt.legend(loc='upper right')
-                plt.savefig('index_'+str(source_dict[eachsource]['index'])+'_'+eachsource+'_lightcurve.pdf',format='pdf')
+                plt.savefig('index_'+str(source_dict[eachsource]['index'])+'_'+eachsource+'_'+wave+'_lightcurve.pdf',format='pdf')
                 plt.clf()
 ##########
 ##########
